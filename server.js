@@ -1,0 +1,20 @@
+const express=require('express')
+const app=express()
+const dotenv=require('dotenv')
+const { default: mongoose } = require('mongoose')
+const bookRoutes=require('./src/routes/bookRoutes')
+const categoryRoutes=require('./src/routes/categoryRoutes')
+const userRoutes=require('./src/routes/userRoutes')
+dotenv.config()
+const PORT=process.env.PORT
+app.use(express.json())
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>console.log("MongoDB Connected"))
+.catch(err=>console.log(err))
+
+app.use('/api/books',bookRoutes)
+app.use('/api/category',categoryRoutes)
+app.use('/api/user',userRoutes)
+app.listen(PORT,()=>{
+    console.log(`Server is running on PORT ${PORT}`)
+})
